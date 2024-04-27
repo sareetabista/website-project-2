@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marquee Effect with Arrows</title>
+<style>
+  .frame {
+    width: 1200px;
+    height: 300px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    position: relative;
+  }
+
+  .image-container {
+    white-space: nowrap;
+    position: absolute;
+    animation: marquee 20s linear infinite;
+  }
+
+  .image-container:hover {
+    animation-play-state: paused;
+  }
+
+  .image-container img {
+    width: 300px;
+    height: 300px;
+    vertical-align: middle;
+    max-height: 100%;
+    transition: transform 0.3s ease;
+  }
+
+  .image-container img:hover {
+    transform: scale(1.2);
+  }
+
+  .image-container span {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .arrows {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+  }
+
+  .arrow {
+    cursor: pointer;
+    font-size: 24px;
+    margin: 0 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .left-arrow {
+    left: 10px;
+  }
+
+  .right-arrow {
+    right: 10px;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="image-container">
+    <img src="Images/Greekpizza.png" alt="Image 1"><span>Image 1</span>
+    <img src="Images/Margheritapizza.png" alt="Image 2"><span>Image 2</span>
+    <img src="Images/californiapizza.png" alt="Image 3"><span>Image 3</span>
+    <!-- Add more images here -->
+  </div>
+  <div class="arrows">
+    <span class="arrow left-arrow">&#10094;</span>
+    <span class="arrow right-arrow">&#10095;</span>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const imageContainer = document.querySelector('.image-container');
+    const leftArrow = document.querySelector('.left-arrow');
+    const rightArrow = document.querySelector('.right-arrow');
+
+    // Function to move images to the left
+    function moveLeft() {
+      const currentTransform = window.getComputedStyle(imageContainer).getPropertyValue('transform');
+      const currentPosition = parseInt(currentTransform.split(',')[4]);
+      imageContainer.style.transform = `translateX(${currentPosition + 100}px)`;
+    }
+
+    // Function to move images to the right
+    function moveRight() {
+      const currentTransform = window.getComputedStyle(imageContainer).getPropertyValue('transform');
+      const currentPosition = parseInt(currentTransform.split(',')[4]);
+      imageContainer.style.transform = `translateX(${currentPosition - 100}px)`;
+    }
+
+    // Event listeners for arrow clicks
+    leftArrow.addEventListener('click', moveRight);
+    rightArrow.addEventListener('click', moveLeft);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crustopia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@600&display=swap" rel="stylesheet">
+      <script src="https://kit.fontawesome.com/cdef59c4b2.js"
+  crossorigin="anonymous">
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <style>
+    /* Additional CSS styles */
+    .cart-item {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 20px 80px;
+      margin-bottom: 10px;
+      display: flex;
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: auto;
+      margin-right: 30px;
+    }
+
+    .cart-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .cart-info p {
+      margin: 5px 0;
+    }
+
+    .quantity {
+      align-items: center;
+    }
+
+    .quantity button {
+      padding: 5px 10px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #dd4c38;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .quantity button:hover {
+      background-color: #d8958d;
+    }
+
+    .quantity input {
+      width: 50px;
+      text-align: center;
+      margin: 0 10px;
+    }
+
+    .total-price {
+      margin-top: 20px;
+      text-align: right;
+      padding-right: 30px;
+    }
+
+    .total-price span {
+      font-weight: bold;
+    }
+
+    .pay-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .pay-button button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #dd4c38;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .pay-button button:hover {
+      background-color:#d8958d;
+    }
+
+    .empty-cart-message {
+      text-align: center;
+      font-style: italic;
+    }
+
+    .cartbody{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .mycart{
+        text-align: center;
+    }
+    #delete-selected{
+        float: right;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html"><img class="logo" src="images/crustopia.png"></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><span id="usernameDisplay" style="font-style: italic; color: black;"></span></li>
+        <li><button id="loginout" style="background-color: #dd4c38; border: none;border-radius: 3px;padding: 5px 8px; color: white;"></button></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentUsername = localStorage.getItem('currentUsername');
+      const loginLogoutButton = document.getElementById('loginout');
+  
+      if (currentUsername !== null) {
+        const usernameDisplay = document.getElementById('usernameDisplay');
+        if (usernameDisplay) {
+          usernameDisplay.textContent = `${currentUsername}`;
+          loginLogoutButton.textContent = "Logout";
+          loginLogoutButton.onclick = logout; // Set logout function
+        }
+      }else {
+        alert('You have to login first!!');
+         window.location.href = 'login.html';
+        //  window.location.href = 'order.html';
+        //  alert('You have to login first!!');
+   }
+  
+      function login() {
+        var result = confirm("Do you want to proceed?");
+        if (result) {
+          window.location.href = 'login.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      }
+  
+      function logout() {
+        localStorage.removeItem('currentUsername');
+        alert('Logged out successfully');
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
+
+  
+      <h2 class="mycart">My Cart</h2>
+      <button id="delete-selected">Delete Selected</button>
+  <div class="cartbody">
+    <div class="cart">
+     
+      
+
+      <!-- Cart items will be dynamically added here -->
+      <div class="empty-cart-message">Your cart is empty. Please select pizzas to order.</div>
+    </div>
+  </div>
+  <!-- Total price and pay button -->
+  <div class="total-price">
+    Total: $<span id="total-price">0.00</span>
+  </div>
+
+  <div class="pay-button">
+    <button id="pay">Pay</button>
+  </div>
+
+
+  <footer style="margin-top:30px;">
+    <div class="container">
+        <div class="detail">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Where are We</h4>
+                    <p>123 Lexci Street<br>
+                        Cityville, State 12345<br>
+                        <h3>Contact us </h3><br>
+                        Phone: (555) 123-4567<br>
+                        Email: info@crustopia.com</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Follow Us</h4>
+                    <p>Stay connected on social media:</p>
+                    <ul class="social-icons">
+                        <li><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                        <li> <a href="https://www.pinterest.com/"><i
+                                    class="fab fa-pinterest-p"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Get Help</h4>
+                    <ul class="footer-links">
+                      
+                        <li><a href="howtoorder.html">How to order</a></li>
+                        <li><a href="faqs.html">FAQs</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+<footer>
+<p>&copy; 2024 Pizza E-Commerce</p>
+</footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+      var cartElement = document.querySelector('.cart');
+      var totalElement = document.getElementById('total-price');
+      var deleteButton = document.getElementById('delete-selected');
+
+      // Function to update total price based on quantity
+      function updateTotalPrice() {
+        var totalPrice = 0;
+        cartItems.forEach(function(item) {
+          totalPrice += item.price * item.quantity;
+        });
+        totalElement.textContent = totalPrice.toFixed(2);
+      }
+
+      // Function to display cart items
+      function displayCartItems() {
+        cartElement.innerHTML = '';
+        if (cartItems.length === 0) {
+          cartElement.innerHTML = '<div class="empty-cart-message">Your cart is empty. Please select pizzas to order.</div>';
+          return;
+        }
+        cartItems.forEach(function(item, index) {
+          var itemHTML = `
+            <div class="cart-item">
+              <input type="checkbox" class="item-checkbox" data-index="${index}" checked> <!-- Automatically selected -->
+              <img src="${item.image}" alt="Pizza Image">
+              <div class="cart-info">
+                <p>Name: ${item.name}</p>
+                <p>Size: ${item.size}</p>
+                <div class="quantity">
+                  <button class="decrease-quantity" data-index="${index}">-</button>
+                  <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-index="${index}">
+                  <button class="increase-quantity" data-index="${index}">+</button>
+                </div>
+                <p>Price: $${item.price}</p>
+              </div>
+            </div>
+          `;
+          cartElement.innerHTML += itemHTML;
+        });
+      }
+
+      // Event listener for changing quantity
+      document.addEventListener('change', function(event) {
+        if (event.target.classList.contains('quantity-input')) {
+          var index = event.target.dataset.index;
+          cartItems[index].quantity = parseInt(event.target.value);
+          localStorage.setItem('cart', JSON.stringify(cartItems));
+          updateTotalPrice();
+        }
+      });
+
+      // Event listeners for increasing and decreasing quantity
+      document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('increase-quantity')) {
+          var index = event.target.dataset.index;
+          cartItems[index].quantity++;
+          localStorage.setItem('cart', JSON.stringify(cartItems));
+          updateTotalPrice();
+          displayCartItems();
+        }
+        if (event.target.classList.contains('decrease-quantity')) {
+          var index = event.target.dataset.index;
+          if (cartItems[index].quantity > 1) {
+            cartItems[index].quantity--;
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+            updateTotalPrice();
+            displayCartItems();
+          }
+        }
+      });
+
+      // Event listener for the Pay button
+      document.getElementById('pay').addEventListener('click', function() {
+        // Check if any item is selected
+        var anyChecked = Array.from(document.querySelectorAll('.item-checkbox')).some(function(checkbox) {
+          return checkbox.checked;
+        });
+        if (!anyChecked) {
+          alert('Please select items from the cart.');
+          return;
+        }
+
+        alert('Payment Successful!');
+        // Remove selected items from cart
+        var selectedIndexes = [];
+        document.querySelectorAll('.item-checkbox').forEach(function(checkbox, index) {
+          if (checkbox.checked) {
+            selectedIndexes.push(index);
+          }
+        });
+        selectedIndexes.reverse().forEach(function(index) {
+          cartItems.splice(index, 1);
+        });
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+        updateTotalPrice();
+        displayCartItems();
+      });
+
+      // Event listener for checkbox change
+      document.addEventListener('change', function(event) {
+        if (event.target.classList.contains('item-checkbox')) {
+          var anyChecked = Array.from(document.querySelectorAll('.item-checkbox')).some(function(checkbox) {
+            return checkbox.checked;
+          });
+        }
+      });
+
+      // Event listener for the delete selected button
+      deleteButton.addEventListener('click', function() {
+        var selectedIndexes = [];
+        document.querySelectorAll('.item-checkbox').forEach(function(checkbox, index) {
+          if (checkbox.checked) {
+            selectedIndexes.push(index);
+          }
+        });
+        selectedIndexes.reverse().forEach(function(index) {
+          cartItems.splice(index, 1);
+        });
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+        updateTotalPrice();
+        displayCartItems();
+      });
+
+      // Initial display of cart items and total price
+      displayCartItems();
+      updateTotalPrice();
+    });
+  </script>
+</body>
+</html>

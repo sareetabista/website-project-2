@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Table with Subcolumns</title>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+
+    .pizza-radio input[type="radio"] {
+    display: none;
+  }
+  
+  .pizza-radio label {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-image: url('Images/pizza2.png'); /* replace 'pizza-icon.png' with your pizza icon */
+    background-size: cover;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .pizza-radio input[type="radio"]:checked + label {
+    transform: scale(1.2); /* adjust scale as needed for animation */
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto; /* Center horizontally */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    animation: slideIn 0.3s ease-in-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* Close button style */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* Style for input fields */
+  input[type="text"] {
+    width: calc(100% - 20px); /* Adjusting for padding */
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+  }
+
+  input[type="text"]:focus {
+    border-color: #4CAF50;
+  }
+
+  /* Style for button */
+  .modal-content button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .modal-content button:hover {
+    background-color: #45a049;
+  }
+    
+</style>
+</head>
+<body>
+
+<table>
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th colspan="3">Column 2 (with Subcolumns)</th>
+            <th>Column 3</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>Subcolumn 1</th>
+            <th>Subcolumn 2</th>
+            <th>Subcolumn 3</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Row 1, Col 1</td>
+            <td>Row 1, Subcol 1</td>
+            <td>Row 1, Subcol 2</td>
+            <td>Row 1, Subcol 3</td>
+            <td>Row 1, Col 3</td>
+        </tr>
+        <tr>
+            <td>Row 2, Col 1</td>
+            <td>Row 2, Subcol 1</td>
+            <td>Row 2, Subcol 2</td>
+            <td>Row 2, Subcol 3</td>
+            <td>Row 2, Col 3</td>
+        </tr>
+        <!-- Add more rows as needed -->
+    </tbody>
+</table>
+
+pizza 
+<div class="pizza-radio">
+    <input type="radio" id="pizza-option1" name="pizza" value="option1">
+    <label for="pizza-option1">pizza</label>
+    <input type="radio" id="pizza-option2" name="pizza" value="option2">
+    <label for="pizza-option2">pizza2</label>
+  </div>
+  
+
+  <video autoplay loop muted playsinline>
+    <source src="Images/ordernow.mp4" type="video/mp4">
+    <!-- Add additional source elements for different video formats if needed -->
+    Your browser does not support the video tag.
+  </video>
+
+ 
+
+    <!-- Button to trigger the modal -->
+    <button id="openModalBtn">Open Modal</button>
+    
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+    
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Welcome to the Modal Popup</h2>
+        <p>This is a simple example of a modal popup.</p>
+        <p>You can add any content here, such as images, text, forms, etc.</p>
+        <p>Click the close button or outside the modal to close it.</p>
+        
+        <!-- Text fields and button -->
+        <input type="text" placeholder="Enter your name">
+        <input type="text" placeholder="Enter your email">
+        <button id="submitBtn">Submit</button>
+      </div>
+    
+    </div>
+    
+    <script>
+    // Get the modal element
+    var modal = document.getElementById("myModal");
+    
+    // Get the button that opens the modal
+    var btn = document.getElementById("openModalBtn");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // Function to open the modal
+    function openModal() {
+      modal.style.display = "block";
+    }
+    
+    // Function to close the modal
+    function closeModal() {
+      modal.style.display = "none";
+    }
+    
+    // Event listener for button click to open modal
+    btn.addEventListener("click", openModal);
+    
+    // Event listener for close button click
+    span.addEventListener("click", closeModal);
+    
+    // Event listener for clicking outside the modal to close it
+    window.addEventListener("click", function(event) {
+      if (event.target == modal) {
+        closeModal();
+      }
+    });
+    
+    // Event listener for submit button
+    document.getElementById("submitBtn").addEventListener("click", function() {
+      var name = document.querySelector('input[type="text"][placeholder="Enter your name"]').value;
+      var email = document.querySelector('input[type="text"][placeholder="Enter your email"]').value;
+      alert("Name: " + name + "\nEmail: " + email);
+    });
+    </script>
+</body>
+</html>

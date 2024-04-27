@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crustopia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@600&display=swap" rel="stylesheet">
+      <script src="https://kit.fontawesome.com/cdef59c4b2.js"
+  crossorigin="anonymous">
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <style>
+    /* Additional CSS styles for the modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+      justify-content: center;
+    }
+  
+    .modal-content {
+      background-color: #fefefe;
+      margin: 0 auto; /* Align center horizontally */
+      padding: 20px;
+      border: 1px solid #888;
+      max-width: 500px; /* Limit width for better readability */
+    }
+  
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+  
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  
+    /* Animation for the modal */
+    @keyframes slideInFromBottom {
+      0% {
+        transform: translateY(100%);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+  </style>
+  
+</head>
+<body>
+  <header>
+    <a href="index.html"><img class="logo" src="images/crustopia.png"></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><span id="usernameDisplay" style="font-style: italic; color: black;"></span></li>
+        <li><button id="loginout" style="background-color: #dd4c38; border: none;border-radius: 3px;padding: 5px 8px; color: white;"></button></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentUsername = localStorage.getItem('currentUsername');
+      const loginLogoutButton = document.getElementById('loginout');
+  
+      if (currentUsername !== null) {
+        const usernameDisplay = document.getElementById('usernameDisplay');
+        if (usernameDisplay) {
+          usernameDisplay.textContent = `${currentUsername}`;
+          loginLogoutButton.textContent = "Logout";
+          loginLogoutButton.onclick = logout; // Set logout function
+        }
+      }else {
+        alert('You have to login first!!');
+         window.location.href = 'login.html';
+        //  window.location.href = 'order.html';
+        //  alert('You have to login first!!');
+   }
+  
+      function login() {
+        var result = confirm("Do you want to proceed?");
+        if (result) {
+          window.location.href = 'login.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      }
+  
+      function logout() {
+        localStorage.removeItem('currentUsername');
+        alert('Logged out successfully');
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
+
+
+  <div class="order-details">
+    <h2>Order Details</h2>
+    <img src="" alt="Pizza Image" id="pizza-image">
+    <p id="pizza-name"></p>
+    <p id="pizza-size"></p>
+    <p id="pizza-price"></p>
+    <div class="order-buttons">
+      <button id="order-now">Order Now</button>
+      <button id="add-to-cart">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="orderModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Details</h2>
+      <img src="" alt="Pizza Image" id="modal-pizza-image" width="150px" height="150px">
+      <p id="modal-pizza-name"></p>
+      <p id="modal-pizza-size"></p>
+      <p>Quantity: <input type="number" id="quantity" min="1" value="1"></p>
+      <p>Price: $<span id="modal-pizza-price">0.00</span></p>
+      <p>Choose your delivery option:
+        <select id="delivery-option">
+          <option value="pickup">Pickup</option>
+          <option value="delivery">Delivery</option>
+        </select>
+      </p>
+      <div id="address" style="display: none;">
+        <p>Delivery Address:</p>
+        <textarea id="delivery-address" rows="4" cols="50"></textarea>
+      </div>
+      <button id="pay">Pay</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Retrieve pizza details from query parameters
+      var params = new URLSearchParams(window.location.search);
+      var pizzaName = params.get('name');
+      var pizzaSize = params.get('size');
+      var pizzaPrice = params.get('price');
+      var pizzaImage = params.get('image');
+
+      // Set pizza details on the page
+      document.getElementById('pizza-image').src = pizzaImage;
+      document.getElementById('pizza-name').textContent = "Pizza: " + pizzaName;
+      document.getElementById('pizza-size').textContent = "Size: " + pizzaSize;
+      document.getElementById('pizza-price').textContent = "Price: $" + pizzaPrice;
+
+      // Add event listener to "Order Now" button
+      document.getElementById('order-now').addEventListener('click', function() {
+        // Show the modal
+        document.getElementById('orderModal').style.display = "block";
+        // Set modal pizza details
+        document.getElementById('modal-pizza-image').src = pizzaImage;
+        document.getElementById('modal-pizza-name').textContent = "Pizza: " + pizzaName;
+        document.getElementById('modal-pizza-size').textContent = "Size: " + pizzaSize;
+        document.getElementById('modal-pizza-price').textContent = pizzaPrice;
+        // Animate the modal sliding from bottom
+        document.getElementById('orderModal').style.animation = "slideInFromBottom 0.5s ease-in";
+      });
+
+
+
+     // Add event listener to "Add to Cart" button
+      document.getElementById('add-to-cart').addEventListener('click', function() {
+        // Retrieve cart items from localStorage
+        var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Construct the item object
+        var newItem = {
+          name: pizzaName,
+          size: pizzaSize,
+          price: pizzaPrice,
+          image: pizzaImage,
+          quantity: 1 // Default quantity is 1
+        };
+
+        // Add the new item to the cart
+        cartItems.push(newItem);
+
+        // Save the updated cart items back to localStorage
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+
+        // Alert that the pizza has been added to cart
+        alert('Pizza added to cart!');
+
+        // Redirect to cart.html
+        window.location.href = 'cart.html';
+      });
+
+      // Close the modal when the close button is clicked
+      document.querySelector('.close').addEventListener('click', function() {
+        document.getElementById('orderModal').style.display = "none";
+      });
+
+      // Update price based on quantity change
+      document.getElementById('quantity').addEventListener('change', function() {
+        var quantity = parseInt(this.value);
+        var price = parseFloat(pizzaPrice);
+        var totalPrice = quantity * price;
+        document.getElementById('modal-pizza-price').textContent = totalPrice.toFixed(2);
+      });
+
+      // Show/hide address field based on delivery option
+      document.getElementById('delivery-option').addEventListener('change', function() {
+        var deliveryOption = this.value;
+        var addressField = document.getElementById('address');
+        if (deliveryOption === "delivery") {
+          addressField.style.display = "block";
+        } else {
+          addressField.style.display = "none";
+        }
+      });
+
+      // "Pay" button functionality
+      document.getElementById('pay').addEventListener('click', function() {
+        alert('Order confirmed!'); // Placeholder for payment confirmation logic
+        // Close the modal after payment confirmation
+        document.getElementById('orderModal').style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>

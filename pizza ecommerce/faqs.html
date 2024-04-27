@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crustopia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@600&display=swap" rel="stylesheet">
+      <script src="https://kit.fontawesome.com/cdef59c4b2.js"
+  crossorigin="anonymous">
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/footer.css">
+ 
+  <style>
+    /* Add your CSS styles here */
+    body {
+      font-family: 'Mulish', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .answer {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <a href="index.html"><img class="logo" src="images/crustopia.png"></a>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><span id="usernameDisplay" style="font-style: italic; color: black;"></span></li>
+            <li><button id="loginout" style="background-color: #dd4c38; border: none;border-radius: 3px;padding: 5px 8px; color: white;"></button></li>
+          </ul>
+        </nav>
+      </header>
+      
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const currentUsername = localStorage.getItem('currentUsername');
+          const loginLogoutButton = document.getElementById('loginout');
+      
+          if (currentUsername !== null) {
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            if (usernameDisplay) {
+              usernameDisplay.textContent = `${currentUsername}`;
+              loginLogoutButton.textContent = "Logout";
+              loginLogoutButton.onclick = logout; // Set logout function
+            }
+          } else {
+            loginLogoutButton.textContent = "Login";
+            loginLogoutButton.onclick = login; // Set login function
+          }
+      
+          function login() {
+            var result = confirm("Do you want to proceed?");
+            if (result) {
+              window.location.href = 'login.html';
+            } else {
+              window.location.href = 'index.html';
+            }
+          }
+      
+          function logout() {
+            localStorage.removeItem('currentUsername');
+            alert('Logged out successfully');
+            window.location.href = 'index.html';
+          }
+        });
+      </script>
+  <div class="container">
+    <h1>Frequently Asked Questions</h1>
+    <div class="faq">
+      <div class="question">Q: How do I place an order?</div>
+      <div class="answer">A: To place an order, simply go to our menu page and select the items you'd like to order. Then, proceed to checkout and follow the instructions to complete your order.</div>
+    </div>
+    <div class="faq">
+      <div class="question">Q: Can I customize my pizza?</div>
+      <div class="answer">A: Yes, you can customize your pizza by selecting your preferred toppings and crust type during the ordering process.</div>
+    </div>
+    <div class="faq">
+      <div class="question">Q: How long does delivery take?</div>
+      <div class="answer">A: Delivery times may vary depending on your location and current demand. Generally, we strive to deliver orders within 30-45 minutes.</div>
+    </div>
+    <div class="faq">
+      <div class="question">Q: What payment methods do you accept?</div>
+      <div class="answer">A: We accept cash on delivery as well as online payments via credit/debit cards and digital wallets.</div>
+    </div>
+    <!-- Add more FAQs as needed -->
+  </div>
+</body>
+</html>

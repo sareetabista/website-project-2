@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crustopia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/cdef59c4b2.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <style>
+    /* Your custom styles here */
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var prices = {
+        'neapolitan': {
+          'small': 8,
+          'medium': 10,
+          'large': 12
+        },
+        'california': {
+          'small': 7,
+          'medium': 9,
+          'large': 11
+        },
+        'chicago': {
+          'small': 7,
+          'medium': 8,
+          'large': 11
+        },
+        'Tomato': {
+          'small': 6,
+          'medium': 8,
+          'large': 10
+        },
+        'New York': {
+          'small': 6,
+          'medium': 9,
+          'large': 12
+        },
+        'Sicilian': {
+          'small': 8,
+          'medium': 10,
+          'large': 13
+        },
+        'Margarita': {
+          'small': 7,
+          'medium': 9,
+          'large': 11
+        }
+      };
+
+      document.querySelectorAll('.size-button').forEach(function(button) {
+        button.addEventListener('click', function() {
+          var selectedSize = this.getAttribute('data-size');
+          var pizzaRow = this.closest('tr');
+          var selectedPizza = pizzaRow.getAttribute('data-pizza');
+          var price = prices[selectedPizza][selectedSize];
+          pizzaRow.querySelector('.price').textContent = '$' + price.toFixed(2);
+          pizzaRow.querySelectorAll('.size-button').forEach(function(btn) {
+            btn.style.backgroundColor = ''; // Reset color
+          });
+          this.style.backgroundColor = '#eb9a3a';
+        });
+      });
+
+      document.querySelectorAll('.order-button').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+          event.stopPropagation();
+          alert('Please confirm your order !');
+          var pizzaRow = this.closest('tr');
+          var pizzaName = pizzaRow.getAttribute('data-pizza');
+          var pizzaSize = pizzaRow.querySelector('.size-button[data-size]').getAttribute('data-size');
+          var pizzaPrice = parseFloat(pizzaRow.querySelector('.price').textContent.replace('$', ''));
+          var pizzaImage = pizzaRow.querySelector('img').src;
+
+          var url = 'order.html?name=' + encodeURIComponent(pizzaName) +
+                    '&size=' + encodeURIComponent(pizzaSize) +
+                    '&price=' + encodeURIComponent(pizzaPrice) +
+                    '&image=' + encodeURIComponent(pizzaImage);
+
+          window.location.href = url;
+        });
+      });
+
+      document.querySelectorAll('.pizza-table img').forEach(function(image) {
+        image.addEventListener('click', function() {
+          var pizzaRow = this.closest('tr');
+          var pizzaName = pizzaRow.getAttribute('data-pizza');
+          var pizzaSize = pizzaRow.querySelector('.size-button[data-size]').getAttribute('data-size');
+          var pizzaPrice = parseFloat(pizzaRow.querySelector('.price').textContent.replace('$', ''));
+          var pizzaImage = this.src;
+
+          var url = 'order.html?name=' + encodeURIComponent(pizzaName) +
+                    '&size=' + encodeURIComponent(pizzaSize) +
+                    '&price=' + encodeURIComponent(pizzaPrice) +
+                    '&image=' + encodeURIComponent(pizzaImage);
+
+          window.location.href = url;
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <a href="index.html"><img class="logo" src="images/crustopia.png"></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><span id="usernameDisplay" style="font-style: italic; color: black;"></span></li>
+        <li><button id="loginout" style="background-color: #dd4c38; border: none;border-radius: 3px;padding: 5px 8px; color: white;"></button></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentUsername = localStorage.getItem('currentUsername');
+      const loginLogoutButton = document.getElementById('loginout');
+  
+      if (currentUsername !== null) {
+        const usernameDisplay = document.getElementById('usernameDisplay');
+        if (usernameDisplay) {
+          usernameDisplay.textContent = `${currentUsername}`;
+          loginLogoutButton.textContent = "Logout";
+          loginLogoutButton.onclick = logout; // Set logout function
+        }
+      } else {
+        loginLogoutButton.textContent = "Login";
+        loginLogoutButton.onclick = login; // Set login function
+      }
+  
+      function login() {
+        var result = confirm("Do you want to proceed?");
+        if (result) {
+          window.location.href = 'login.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      }
+  
+      function logout() {
+        localStorage.removeItem('currentUsername');
+        alert('Logged out successfully');
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
+  
+
+  <div class="menuimage">
+    <img src="Images/menupage.png" alt="Menu Image" class="menu-page-image">
+  </div>
+
+  <div class="content1">
+    <section class="pizza-menu">
+      <h2>Our Delicious Pizzas</h2>
+      <table class="pizza-table">
+        <thead>
+          <tr>
+            <th>Pizza</th>
+            <th colspan="3">Sizes</th> 
+            <th>Price</th>
+            <th>Action</th> 
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-pizza="New York">
+            <td>
+              <img src="Images/newyork.png" alt="New York Pizza"><br>
+              <span>New York Pizza</span>
+            </td>
+            <td><button class="size-button" data-size="small">S</button></td>
+            <td><button style="background-color: #eb9a3a;" class="size-button" data-size="medium">M</button></td>
+            <td><button class="size-button" data-size="large">L</button></td>
+            <td class="price">$9.00</td>
+            <td><button class="order-button">Order</button></td>
+          </tr>
+          <!-- Add other pizza rows similarly -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <footer style="margin-top:30px;">
+    <div class="container">
+        <div class="detail">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4><a href="contact.html" style="color:white;">Where are We</a></h4>
+                    <p>123 Lexci Street<br>
+                        Cityville, State 12345<br>
+                        <h3>Contact us </h3><br>
+                        Phone: (555) 123-4567<br>
+                        Email: info@crustopia.com</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Follow Us</h4>
+                    <p>Stay connected on social media:</p>
+                    <ul class="social-icons">
+                        <li><a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                        <li> <a href="https://www.pinterest.com/"><i
+                                    class="fab fa-pinterest-p"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Get Help</h4>
+                    <ul class="footer-links">
+                        <li><a href="howtoorder.html">How to order</a></li>
+                        <li><a href="faqs.html">FAQs</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+      <p>&copy; 2024 Pizza E-Commerce</p>
+    </footer>
+  </footer>
+</body>
+</html>
